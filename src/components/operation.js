@@ -486,6 +486,8 @@ export const OPERATION_FIELDS = {
     name: { name: 'name', label: 'Name', units: '', input: StringInput },
 
     filterFillColor: { name: 'filterFillColor', label: 'Filter Fill', units: '', input: FilterInput },
+    mirrorXAxis: { name: 'mirrorXAxis', label: 'Mirror X Axis', units: '', input: ToggleInput},
+    xMax: { name: 'xMax', label: 'Max X Value', units: '', input: NumberInput},
     filterStrokeColor: { name: 'filterStrokeColor', label: 'Filter Stroke', units: '', input: FilterInput },
     direction: { name: 'direction', label: 'Direction', units: '', input: DirectionInput },
 
@@ -569,7 +571,7 @@ const tabFields = [
 ];
 
 export const OPERATION_TYPES = {
-    'Laser Cut': { allowTabs: true, tabFields: false, fields: ['name', 'filterFillColor', 'filterStrokeColor', 'laserPower', 'passes', 'passDepth', 'startHeight', 'cutRate', 'useA', 'aAxisDiameter', 'useBlower', 'segmentLength', ...OPERATION_GROUPS.Macros.fields] },
+    'Laser Cut': { allowTabs: true, tabFields: false, fields: ['name', 'mirrorXAxis', 'xMax', 'filterFillColor', 'filterStrokeColor', 'laserPower', 'passes', 'passDepth', 'startHeight', 'cutRate', 'useA', 'aAxisDiameter', 'useBlower', 'segmentLength', ...OPERATION_GROUPS.Macros.fields] },
     'Laser Cut Inside': { allowTabs: true, tabFields: false, fields: ['name', 'filterFillColor', 'filterStrokeColor', 'laserDiameter', 'laserPower', 'margin', 'passes', 'passDepth', 'startHeight', 'cutRate', 'useA', 'aAxisDiameter', 'useBlower', 'segmentLength', ...OPERATION_GROUPS.Macros.fields] },
     'Laser Cut Outside': { allowTabs: true, tabFields: false, fields: ['name', 'filterFillColor', 'filterStrokeColor', 'laserDiameter', 'laserPower', 'margin', 'passes', 'passDepth', 'startHeight', 'cutRate', 'useA', 'aAxisDiameter', 'useBlower', 'segmentLength', ...OPERATION_GROUPS.Macros.fields] },
     'Laser Fill Path': { allowTabs: false, tabFields: false, fields: ['name', 'filterFillColor', 'filterStrokeColor', 'lineDistance', 'lineAngle', 'laserPower', 'margin', 'passes', 'passDepth', 'startHeight', 'cutRate', 'useA', 'aAxisDiameter', 'useBlower', ...OPERATION_GROUPS.Macros.fields] },

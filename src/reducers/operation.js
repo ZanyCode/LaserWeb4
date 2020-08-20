@@ -10,6 +10,8 @@ export const OPERATION_INITIALSTATE = {
     id: '',
     name: '',
     enabled: true,
+    mirrorXAxis: false,
+    xMax: 600,
     documents: [],
     tabDocuments: [],
     expanded: false,

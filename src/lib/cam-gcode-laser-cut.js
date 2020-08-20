@@ -37,7 +37,7 @@ export function getLaserCutGcode(props) {
         useA, aAxisDiameter,
         tabGeometry, gcodeToolOn, gcodeToolOff,
         gcodeLaserIntensity, gcodeLaserIntensitySeparateLine, gcodeSMinValue, gcodeSMaxValue,
-        useZ, useBlower,
+        useZ, useBlower, mirrorXAxis, xMax,
         hookPassStart, hookPassEnd
     } = props;
 
@@ -48,8 +48,12 @@ export function getLaserCutGcode(props) {
     let laserOnS = gcodeLaserIntensity + (gcodeSMinValue + (gcodeSMaxValue - gcodeSMinValue) * laserPower / 100).toFixed(decimal);
 
     let lastX = 0, lastY = 0, lastA = 0;
-    function convertPoint(p, rapid) {
+    function convertPoint(p, rapid, mirrorX, xMax) {
         let x = p.X * scale + offsetX;
+        if (mirrorX) {
+            x = xMax - x;
+        }
+
         let y = p.Y * scale + offsetY;
         if (useA) {
             let a = y * 360 / aAxisDiameter / Math.PI;
@@ -118,7 +122,7 @@ export function getLaserCutGcode(props) {
                     gcode += '; Skip tab\r\n';
                     continue;
                 }
-                gcode += generator.moveRapid(convertPoint(selectedPath[0], true)) + '\r\n';
+                gcode += generator.moveRapid(convertPoint(selectedPath[0], true, mirrorXAxis, xMax)) + '\r\n';
 
                 if (useZ && !usedZposition) {
                     usedZposition = true;
@@ -132,7 +136,7 @@ export function getLaserCutGcode(props) {
                 for (let i = 1; i < selectedPath.length; ++i) {
                     if (i == 1 && gcodeLaserIntensitySeparateLine)
                         gcode += laserOnS + '\n';
-                    let action = convertPoint(selectedPath[i], false);
+                    let action = convertPoint(selectedPath[i], false, mirrorXAxis, xMax);
                     //gcode += convertPoint(selectedPath[i], false);
                     if (i == 1 && !gcodeLaserIntensitySeparateLine)
                         action.i = laserOnS;
@@ -271,6 +275,8 @@ export function getLaserCutGcodeFromOp(settings, opIndex, op, geometry, openGeom
         gcodeLaserIntensitySeparateLine: settings.gcodeLaserIntensitySeparateLine,
         gcodeSMinValue: settings.gcodeSMinValue,
         gcodeSMaxValue: settings.gcodeSMaxValue,
+        mirrorXAxis: op.mirrorXAxis,
+        xMax: op.xMax,
 
         hookPassStart: op.hookPassStart,
         hookPassEnd: op.hookPassEnd,
